@@ -15,7 +15,7 @@ const hotelsSchema = new Schema(
       required: true,
     },
     establishedDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     singleRoom: {
@@ -44,14 +44,19 @@ const hotelsSchema = new Schema(
     },
     website: {
       type: String,
+      required: false,
     },
     email: {
       type: String,
       required: true,
     },
-    image: {
+    phoneNo: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
+      required: false,
     },
   },
   {
@@ -59,4 +64,4 @@ const hotelsSchema = new Schema(
   }
 );
 
-export const hotels = mongoose.model("Hotel", hotelsSchema);
+export const Hotel = mongoose.model("Hotel", hotelsSchema);

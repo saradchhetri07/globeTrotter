@@ -17,8 +17,16 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 //import routers
-import userRouter from "./route/user.routes.js";
+import userRouter from "./router/user.routes.js";
+import flightRouter from "./router/flights.routes.js";
+import hotelRouter from "./router/hotels.routes.js";
+import userHotelRouter from "./router/user.hotels.routes.js";
+import userFlightRouter from "./router/users.flights.routes.js";
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/flight", flightRouter);
+app.use("/api/v1/hotels", hotelRouter);
+app.use("/api/v1/userHotels", userHotelRouter);
+app.use("/api/v1/userFlightRouter", userFlightRouter);
 
 export { app };

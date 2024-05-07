@@ -14,19 +14,11 @@ const flightsSchema = new Schema(
       type: String,
       required: true,
     },
-    flightdest: {
+    flightDest: {
       type: String,
       required: true,
     },
-    economy: {
-      type: Number,
-      required: true,
-    },
     economyRate: {
-      type: Number,
-      required: true,
-    },
-    business: {
       type: Number,
       required: true,
     },
@@ -36,19 +28,19 @@ const flightsSchema = new Schema(
     },
     website: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
       required: true,
     },
-    phoneno: {
+    phoneNo: {
       type: Number,
       required: true,
     },
     image1: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   {

@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { refreshAccessToken } from "../controllers/user.controller.js";
 
 const userSchema = new Schema(
   {
@@ -25,7 +26,7 @@ const userSchema = new Schema(
       required: true,
     },
     dateOfBirth: {
-      type: Date,
+      type: String,
       required: true,
     },
     gender: {
@@ -36,9 +37,12 @@ const userSchema = new Schema(
     },
     profilePicture: {
       type: String,
+      required: false,
     },
     role: {
       type: String,
+      enum: ["admin", "user"],
+      lowercase: true,
       required: true,
     },
     refreshToken: {

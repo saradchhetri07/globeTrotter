@@ -15,9 +15,16 @@ const generateAccessAndRefreshToken = async (userId) => {
     }
 
     const accessToken = await user.generateAccessToken();
-    const refreshToken = await user.generateRefreshToken();
+    console.log(
+      `inside generateAccessAndRefreshToken accesstoken is ${accessToken}`
+    );
 
+    const refreshToken = await user.generateRefreshToken();
+    console.log(
+      `inside generateAccessAndRefreshToken refresh token is ${refreshToken}`
+    );
     user.refreshToken = refreshToken;
+
     await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToken };
   } catch (error) {
@@ -41,7 +48,6 @@ const registerUser = asyncHandler(async (req, res) => {
     role,
   } = req.body;
 
-  console.log(email);
   if (
     [email, password, firstName, lastName, dateOfBirth, gender, role].some(
       (field) => field?.trim() === ""
@@ -56,17 +62,17 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, "User already exists");
   }
 
-  const profilePictureLocalFilePath = req.files?.profilePicture[0]?.path;
-  console.log(profilePictureLocalFilePath);
+  // const profilePictureLocalFilePath = req.files?.profilePicture[0]?.path;
+  // console.log(profilePictureLocalFilePath);
 
-  if (!profilePictureLocalFilePath) {
-    throw new ApiError(404, "Put up your profile picture");
-  }
+  // if (!profilePictureLocalFilePath) {
+  //   throw new ApiError(404, "Put up your profile picture");
+  // }
 
-  const uploadedProfilePicture = await cloudinaryUpload(
-    profilePictureLocalFilePath
-  );
-  console.log(uploadedProfilePicture);
+  // const uploadedProfilePicture = await cloudinaryUpload(
+  //   profilePictureLocalFilePath
+  // );
+  // console.log(uploadedProfilePicture);
 
   const user = await User.create({
     email,
@@ -75,7 +81,7 @@ const registerUser = asyncHandler(async (req, res) => {
     lastName: lastName.toLowerCase(),
     dateOfBirth,
     gender,
-    profilePicture: uploadedProfilePicture?.url || "",
+    profilePicture: "",
     role,
   });
 
@@ -111,7 +117,9 @@ const loginUser = asyncHandler(async (req, res) => {
     return res.status(401).json(new ApiError(401, "Invalid credentials"));
   }
   //if valid user generate access token
-  const { accessToken, refreshToken } = generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
