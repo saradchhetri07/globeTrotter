@@ -62,4 +62,14 @@ const registerHotel = asyncHandler(async (req, res) => {
     .json(new ApiResonse(200, hotel, "hotel registered sucessfully"));
 });
 
-export { registerHotel };
+const getAllHotel = asyncHandler(async (req, res) => {
+  const hotels = await Hotel.find();
+  if (!hotels) {
+    throw new ApiError(404, "Hotels not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResonse(200, hotels, "Hotels fetched successfully"));
+});
+
+export { registerHotel, getAllHotel };

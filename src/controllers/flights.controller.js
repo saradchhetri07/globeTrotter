@@ -31,7 +31,7 @@ const registerFlight = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError("Enter all the required fields");
   }
-  const flight = Flights.create({
+  const flight = await Flights.create({
     userId: req.user._id,
     flightName,
     flightDepart,
@@ -43,7 +43,7 @@ const registerFlight = asyncHandler(async (req, res) => {
   });
   console.log(flight);
 
-  const createdFlight = Flights.find({ userId: req.user._id });
+  const createdFlight = await Flights.find({ userId: req.user._id });
 
   if (!createdFlight) {
     throw new ApiError(400, "flight has not been created");
@@ -53,4 +53,15 @@ const registerFlight = asyncHandler(async (req, res) => {
     .json(new ApiResonse(200, createdFlight, "Flight created sucessfully"));
 });
 
-export { registerFlight };
+const getAllFlight = asyncHandler(async (req, res) => {
+  const allFlight = await Flights.find();
+
+  if (!allFlight) {
+    throw new ApiError(404, "No flights found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResonse(200, allFlight, "Flights fetched successfully"));
+});
+
+export { registerFlight, getAllFlight };

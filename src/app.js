@@ -27,6 +27,6 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/flight", flightRouter);
 app.use("/api/v1/hotels", hotelRouter);
 app.use("/api/v1/userHotels", userHotelRouter);
-app.use("/api/v1/userFlightRouter", userFlightRouter);
+app.use("/api/v1/userFlights", userFlightRouter);
 
 export { app };
